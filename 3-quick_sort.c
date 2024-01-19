@@ -1,6 +1,18 @@
 #include "sort.h"
 
 /**
+ * swap -swaps two elements
+ * @a: first element
+ * @b: second element
+ */
+ void swap(int *a, int *b)
+ {
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+ }
+
+/**
  * Lomuto_partition - Lomuto partition scheme
  * @array: array to be partitioned
  * @low: first element of the array
@@ -8,7 +20,7 @@
  */
 static int lomuto_partition(int *array, int low, int high)
 {
-	int temp, pivot, i, j;
+	int pivot, i, j;
 	pivot = array[high];
 	i = (low - 1);
 
@@ -17,17 +29,11 @@ static int lomuto_partition(int *array, int low, int high)
 		if (array[j] <= pivot)
 		{
 			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			swap(&array[i], &array[j]);
 		}
 	}
 	
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
-	print_array(array, high + 1);
-
+	swap(&array[i + 1], &array[high]);
 	return (i + 1);
 }
 
@@ -38,18 +44,17 @@ static int lomuto_partition(int *array, int low, int high)
  * @high: ending index of the array
  * @size: size of array
  */
-static void quick_sort_helper(int *array, int low, int high, size_t size)
+static void quick_sort_helper(int *array, int low, int high)
 {
-	int pivot;
-
 	if (low < high)
 	{
-		pivot = lomuto_partition(array, low, high);
+		int pivot = lomuto_partition(array, low, high);
 
-		print_array(array, size);
+		if (pivot > low)
+			print_array(array, high + 1);
 
-		quick_sort_helper(array, low, pivot - 1, size);
-		quick_sort_helper(array, pivot + 1, high, size);
+		quick_sort_helper(array, low, pivot - 1);
+		quick_sort_helper(array, pivot + 1, high);
 	}
 }
 
@@ -64,5 +69,5 @@ void quick_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	quick_sort_helper(array, 0, size - 1, size);
+	quick_sort_helper(array, 0, size - 1);
 }
