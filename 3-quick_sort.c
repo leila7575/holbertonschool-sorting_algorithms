@@ -5,22 +5,25 @@
  * @a: first element
  * @b: second element
  */
- void swap(int *a, int *b)
- {
+void swap(int *a, int *b)
+{
 	int temp = *a;
 	*a = *b;
 	*b = temp;
- }
+}
 
 /**
- * Lomuto_partition - Lomuto partition scheme
+ * lomuto_partition - Lomuto partition scheme
  * @array: array to be partitioned
  * @low: first element of the array
  * @high: last element of the array
+ * @size: size of array
+ * Return: index of pivot
  */
 int lomuto_partition(int *array, int low, int high, size_t size)
 {
 	int pivot, i, j;
+
 	pivot = array[high];
 	i = low - 1;
 
@@ -53,9 +56,11 @@ int lomuto_partition(int *array, int low, int high, size_t size)
  */
 static void quick_sort_helper(int *array, int low, int high, size_t size)
 {
+	int pivot;
+
 	if (low < high)
 	{
-		int pivot = lomuto_partition(array, low, high, size);
+		pivot = lomuto_partition(array, low, high, size);
 		quick_sort_helper(array, low, pivot - 1, size);
 		quick_sort_helper(array, pivot + 1, high, size);
 	}
