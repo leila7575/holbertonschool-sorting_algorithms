@@ -22,9 +22,11 @@ static int lomuto_partition(int *array, int low, int high)
 			array[j] = temp;
 		}
 	}
+	
 	temp = array[i + 1];
 	array[i + 1] = array[high];
 	array[high] = temp;
+	print_array(array, high + 1);
 
 	return (i + 1);
 }
